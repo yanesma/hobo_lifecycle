@@ -7,21 +7,31 @@ class Transaction < ActiveRecord::Base
   end
  
   belongs_to :customer, :class_name => "User"
-
   belongs_to :company, :class_name => "User"
 
   lifecycle do
 
-    state :submitted, :accepted
+    initial_state :inactive
+    state :submitted, :approved, :delivered
 
-     create :submit, :params => [ :company ], :become => :submitted,
-                     :available_to => "User",
-                     :user_becomes => :customer do
-                     puts "  submit"
+    create :submit, :params => [ :company, :card_number, :expiry_date , :quantity], :become => :submitted,
+      :available_to => "User",
+      :user_becomes => :customer do
+      puts " transaction submitted "
     end
 
-     transition :accept, { :submitted => :accepted }, :available_to => :customer do
-     puts "transaction success"
+    transition :approve, { :submitted => :approved }, :available_to => :company do
+      #send to customer
+      puts "transaction success"
+    end
+
+
+    transition :reject, { :submitted => :destroy }, :available_to => :company do
+      puts "transaction failed"
+    end
+
+    transition :deliver, { :approved => :delivered }, :available_to => :company do
+      puts "Package send"
     end
 
   end

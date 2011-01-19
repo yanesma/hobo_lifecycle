@@ -8,7 +8,7 @@
       <section class="welcome-message">
         <h3>Congratulations! Your Hobo Rails App is up and running</h3>
         <ul>
-          <li>To customise this page: edit app/views/front/index.dryml</li>
+         <a:transactions action="submit">Register a new survey</a:transactions>
         </ul>
     
         <% if User.count == 0 -%>
