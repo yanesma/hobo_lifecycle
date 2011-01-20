@@ -5,6 +5,7 @@
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item with="&Transaction"><ht key="transactions.nav_item">Transactions</ht></nav-item>
   </navigation>
 </def>
 
@@ -33,6 +34,9 @@
       </header>
 
       <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="transactions.actions.new">New Transaction</ht>
+        </a>
 
         <page-nav param="top-page-nav"/>
 
@@ -84,10 +88,16 @@
             </h2>
 
             <record-flags fields="" param/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="transactions.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Transaction
+              </ht>
+            </a>
           </header>
 
           <section param="content-body">
-            <field-list fields="state, company, customer" param/>
+            <field-list fields="visa_number, expiry_date, quantity, state, company, customer" param/>
           </section>
     </content:>
 
@@ -119,47 +129,24 @@
 </def>
 
 
-<def tag="submit-page" polymorphic/>
-<def tag="submit-page" for="Transaction">
-  
-  <page title="#{ht 'transactions.submit.title', :default=>['Submit']}" merge>  
 
-    <body: class="lifecycle-start-page submit-page" param/>
+<def tag="approve-page" polymorphic/>
+<def tag="approve-page" for="Transaction">
+  <page title="#{ht 'transactions.approve.title', :default=>['Approve']}" merge>
 
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="transactions.submit.heading">
-            Submit
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <submit-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
-
-<def tag="accept-page" polymorphic/>
-<def tag="accept-page" for="Transaction">
-  <page title="#{ht 'transactions.accept.title', :default=>['Accept']}" merge>
-
-    <body: class="lifecycle-transition-page accept-page" param/>
+    <body: class="lifecycle-transition-page approve-page" param/>
 
     <content:>
       <header param="content-header">
         <h2 param="heading">
-          <ht key="transactions.accept.heading">
-            Accept
+          <ht key="transactions.approve.heading">
+            Approve
           </ht>
         </h2>
       </header>
 
       <section param="content-body">
-        <accept-form param="form"/>
+        <approve-form param="form"/>
       </section>
     </content:>
 
@@ -183,6 +170,29 @@
 
       <section param="content-body">
         <reject-form param="form"/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+<def tag="deliver-page" polymorphic/>
+<def tag="deliver-page" for="Transaction">
+  <page title="#{ht 'transactions.deliver.title', :default=>['Deliver']}" merge>
+
+    <body: class="lifecycle-transition-page deliver-page" param/>
+
+    <content:>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="transactions.deliver.heading">
+            Deliver
+          </ht>
+        </h2>
+      </header>
+
+      <section param="content-body">
+        <deliver-form param="form"/>
       </section>
     </content:>
 

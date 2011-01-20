@@ -3,6 +3,11 @@ class Transaction < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
   fields do
+    
+    visa_number :integer
+    expiry_date :date
+    quantity :integer
+
     timestamps
   end
  
@@ -11,20 +16,19 @@ class Transaction < ActiveRecord::Base
 
   lifecycle do
 
-    initial_state :inactive
-    state :submitted, :approved, :delivered
+    state :submitted, :default => true
+    state :approved, :delivered
 
-    create :submit, :params => [ :company, :card_number, :expiry_date , :quantity], :become => :submitted,
-      :available_to => "User",
-      :user_becomes => :customer do
-      puts " transaction submitted "
-    end
+#    create :submit, :params => [ :company, :visa_number,:expiry_date, :quantity], :become => :submitted,
+#      :available_to => "User",
+#      :user_becomes => :customer do
+#      puts " transaction submitted "
+#    end
 
     transition :approve, { :submitted => :approved }, :available_to => :company do
       #send to customer
       puts "transaction success"
     end
-
 
     transition :reject, { :submitted => :destroy }, :available_to => :company do
       puts "transaction failed"
@@ -39,11 +43,11 @@ class Transaction < ActiveRecord::Base
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.administrator?
+    acting_user.signed_up?
   end
 
   def update_permitted?
-    acting_user.administrator?
+    acting_user.signed_up?
   end
 
   def destroy_permitted?

@@ -8,7 +8,7 @@
       <section class="welcome-message">
         <h3>Congratulations! Your Hobo Rails App is up and running</h3>
         <ul>
-         <a:transactions action="submit">Register a new survey</a:transactions>
+         <a:transactions action="submit">Register a new survey</a>
         </ul>
     
         <% if User.count == 0 -%>

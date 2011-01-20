@@ -9,15 +9,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110118080330) do
+ActiveRecord::Schema.define(:version => 20110120113308) do
 
   create_table "transactions", :force => true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "customer_id"
     t.integer  "company_id"
-    t.string   "state"
+    t.string   "state",         :default => "submitted"
     t.datetime "key_timestamp"
+    t.integer  "visa_number"
+    t.date     "expiry_date"
+    t.integer  "quantity"
   end
 
   add_index "transactions", ["company_id"], :name => "index_transactions_on_company_id"

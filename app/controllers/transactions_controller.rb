@@ -2,7 +2,7 @@ class TransactionsController < ApplicationController
 
   hobo_model_controller
 
-  auto_actions :lifecycle
+  auto_actions :all
  
 
 #  def accept

@@ -3,32 +3,22 @@
 <def tag="form" for="Transaction">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="state, company, customer" param/>
+    <field-list fields="visa_number, expiry_date, quantity, state, company, customer" param/>
     <div param="actions">
       <submit label="#{ht 'transactions.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
 
-<def tag="submit-form" polymorphic/>
-<def tag="submit-form" for="Transaction">
-  <form lifecycle="submit" merge param="default">
-    <error-messages param/>
-    <field-list fields="company, card_number, expiry_date, quantity" param/>
-    <div param="actions">
-      <submit label="#{ht 'transactions.actions.submit', :default=>['Submit']}" param/><or-cancel param="cancel"/>
-    </div>
-  </form>
-</def>
 
-<def tag="accept-form" polymorphic/>
-<def tag="accept-form" for="Transaction">
-  <form lifecycle="accept" merge param="default">
+<def tag="approve-form" polymorphic/>
+<def tag="approve-form" for="Transaction">
+  <form lifecycle="approve" merge param="default">
     <error-messages param/>
     <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
     <field-list fields="" param/>
     <div param="actions">
-      <submit label="#{ht 'transactions.actions.accept', :default=>['Accept']}" param/><or-cancel param="cancel"/>
+      <submit label="#{ht 'transactions.actions.approve', :default=>['Approve']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
@@ -40,6 +30,17 @@
     <field-list fields="" param/>
     <div param="actions">
       <submit label="#{ht 'transactions.actions.reject', :default=>['Reject']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+<def tag="deliver-form" polymorphic/>
+<def tag="deliver-form" for="Transaction">
+  <form lifecycle="deliver" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="" param/>
+    <div param="actions">
+      <submit label="#{ht 'transactions.actions.deliver', :default=>['Deliver']}" param/><or-cancel param="cancel"/>
     </div>
   </form>
 </def>
