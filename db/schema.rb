@@ -9,7 +9,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110120113308) do
+ActiveRecord::Schema.define(:version => 20110120120805) do
+
+  create_table "products", :force => true do |t|
+    t.integer  "code"
+    t.string   "name"
+    t.float    "price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "transactions", :force => true do |t|
     t.datetime "created_at"
@@ -21,10 +29,12 @@ ActiveRecord::Schema.define(:version => 20110120113308) do
     t.integer  "visa_number"
     t.date     "expiry_date"
     t.integer  "quantity"
+    t.integer  "product_id"
   end
 
   add_index "transactions", ["company_id"], :name => "index_transactions_on_company_id"
   add_index "transactions", ["customer_id"], :name => "index_transactions_on_customer_id"
+  add_index "transactions", ["product_id"], :name => "index_transactions_on_product_id"
   add_index "transactions", ["state"], :name => "index_transactions_on_state"
 
   create_table "users", :force => true do |t|

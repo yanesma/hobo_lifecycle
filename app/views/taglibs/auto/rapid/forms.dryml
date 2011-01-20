@@ -1,9 +1,21 @@
 <!-- AUTOMATICALLY GENERATED FILE - DO NOT EDIT -->
 
+<def tag="form" for="Product">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="code, name, price" param/>
+    <div param="actions">
+      <submit label="#{ht 'products.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="Transaction">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="visa_number, expiry_date, quantity, state, company, customer" param/>
+    <field-list fields="visa_number, expiry_date, quantity, state, company, customer, product" param/>
     <div param="actions">
       <submit label="#{ht 'transactions.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

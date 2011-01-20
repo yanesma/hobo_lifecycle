@@ -5,9 +5,130 @@
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item with="&Product"><ht key="products.nav_item">Products</ht></nav-item>
     <nav-item with="&Transaction"><ht key="transactions.nav_item">Transactions</ht></nav-item>
   </navigation>
 </def>
+
+
+
+
+<!-- ====== Product Pages ====== -->
+
+<def tag="index-page" for="Product">
+  <page merge title="#{ht 'products.index.title', :default=>['Products'] }">
+    <body: class="index-page product" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="products.index.heading">
+            Products
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="products.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="products.actions.new">New Product</ht>
+        </a>
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="Product">
+  <page merge title="#{ht 'products.new.title', :default=>[' New Product'] }">
+    <body: class="new-page product" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="products.new.heading">
+            New Product
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'products.actions.create', :default=>['Create Product']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="Product">
+  <page merge title="#{ht 'products.show.title', :default=>['Product'] }">
+
+    <body: class="show-page product" param/>
+
+    <content: param>
+          <header param="content-header">
+            <h2 param="heading">
+              <ht key="products.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="products.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Product
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="code, price" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="Product">
+  <page merge title="#{ht 'products.edit.title', :default=>['Edit Product'] }">
+
+    <body: class="edit-page product" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="products.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'products.actions.delete', :default=>['Remove This Product']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
 
 
 
@@ -89,6 +210,8 @@
 
             <record-flags fields="" param/>
 
+            <a:customer param="creator-link"/>
+
             <a action="edit" if="&can_edit?" param="edit-link">
               <ht key="transactions.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
                 Edit Transaction
@@ -97,7 +220,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="visa_number, expiry_date, quantity, state, company, customer" param/>
+            <field-list fields="visa_number, expiry_date, quantity, state, company, product" param/>
           </section>
     </content:>
 

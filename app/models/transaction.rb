@@ -11,9 +11,12 @@ class Transaction < ActiveRecord::Base
     timestamps
   end
  
-  belongs_to :customer, :class_name => "User"
+  belongs_to :customer, :class_name => "User", :creator => true
   belongs_to :company, :class_name => "User"
+  belongs_to :product
 
+  validates_numericality_of :quantity, :greater_than => 0
+  
   lifecycle do
 
     state :submitted, :default => true
